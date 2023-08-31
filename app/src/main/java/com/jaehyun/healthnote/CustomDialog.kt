@@ -17,8 +17,8 @@ class CustomDialog(context: Context) {
         })
         dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(true)
         dialog.show()
     }
 

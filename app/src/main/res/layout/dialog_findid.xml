@@ -76,6 +76,7 @@
             />
 
         <Button
+            android:id="@+id/findIdBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/login_button"
@@ -84,6 +85,7 @@
             android:textStyle="bold"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
+            android:onClick="TestCall"
             />
 
 
