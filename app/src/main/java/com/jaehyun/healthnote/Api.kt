@@ -13,13 +13,13 @@ import retrofit2.http.POST
 
 interface Api {
     //@Headers("app/json")
-    @POST("/test/member/join")
+    @POST("/member/join")
     fun userRegister(
         @Body jsonParams : Register,
     ): Call<RegisterResponse>
 
     companion object {
-        private const val BASE_URL = "http://localhost:8080"
+        private const val BASE_URL = "http://healthnote.cloud"
         val gson : Gson = GsonBuilder().setLenient().create()
 
         fun create() : Api{
