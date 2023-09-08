@@ -20,7 +20,9 @@
         android:theme="@style/Theme.HealthNote"
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
+        tools:remove = "android:appComponentFactory"
         tools:targetApi="31">
+        <activity android:name=".HomeActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -33,5 +35,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

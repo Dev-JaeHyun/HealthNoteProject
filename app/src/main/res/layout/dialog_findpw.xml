@@ -26,6 +26,7 @@
                 />
 
             <TextView
+                android:id="@+id/changePw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="비밀번호 찾기"
@@ -57,48 +58,79 @@
             android:layout_marginVertical="20dp"
             >
 
-            <EditText
-                android:layout_width="200dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_edge"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:maxLength="15"
-                android:hint="@string/id"
-                android:textColorHighlight="@color/white_hint"
-                android:textColorHint="@color/white_hint"
-                android:inputType="text"
-                android:importantForAutofill="no"
-                android:drawableStart="@drawable/login_person_white"
-                android:drawablePadding="10dp"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="7dp"
+                android:orientation="vertical"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                />
+                android:gravity="left"
+                >
+                <EditText
+                    android:id="@+id/inputid"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/login_edge"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:maxLength="15"
+                    android:hint="@string/id"
+                    android:textColorHighlight="@color/white_hint"
+                    android:textColorHint="@color/white_hint"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    android:drawableStart="@drawable/login_person_white"
+                    android:drawablePadding="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="7dp"
+                    />
+                <TextView
+                    android:id="@+id/warnid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textColor="@color/warm_red"
+                    android:text=" "
+                    />
+            </LinearLayout>
 
-            <EditText
-                android:layout_width="200dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_edge"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:maxLength="15"
-                android:hint="@string/email"
-                android:textColorHighlight="@color/white_hint"
-                android:textColorHint="@color/white_hint"
-                android:inputType="text"
-                android:importantForAutofill="no"
-                android:drawableStart="@drawable/login_email_white"
-                android:drawablePadding="10dp"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="7dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:gravity="left"
 
+                >
+                <EditText
+                    android:id="@+id/inputemail"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/login_edge"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:maxLength="30"
+                    android:hint="@string/email"
+                    android:textColorHighlight="@color/white_hint"
+                    android:textColorHint="@color/white_hint"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    android:drawableStart="@drawable/login_email_white"
+                    android:drawablePadding="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="7dp"
+                    />
+                <TextView
+                    android:id="@+id/warnemail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/warm_red"
+                    android:text=" "
+                    />
+            </LinearLayout>
             <Button
-                android:id="@+id/findIdBtn"
+                android:id="@+id/submitBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/login_button"
@@ -107,7 +139,6 @@
                 android:textStyle="bold"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
-                android:onClick="TestCall"
                 />
 
 

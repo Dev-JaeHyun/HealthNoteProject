@@ -20,8 +20,8 @@
             android:textSize="80sp"
             android:textColor="@color/white"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
             />
         <!-- 로고 텍스트 뷰 -->
 
@@ -46,7 +46,7 @@
                 android:background="@drawable/login_edge"
                 >
                 <EditText
-                    android:id="@+id/id"
+                    android:id="@+id/inputid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -61,10 +61,12 @@
                     android:drawableStart="@drawable/login_person_white"
                     android:drawablePadding="10dp"
                     android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="3dp"
                     />
 
                 <EditText
-                    android:id="@+id/pw"
+                    android:id="@+id/inputpw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -78,6 +80,8 @@
                     android:drawableStart="@drawable/login_lock_white"
                     android:drawablePadding="10dp"
                     android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="6dp"
                     />
 
             </LinearLayout>
@@ -109,7 +113,9 @@
                 android:background="@drawable/login_button"
                 android:text="로그인"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:onClick="Login"
+                />
 
             <Space
                 android:layout_width="wrap_content"

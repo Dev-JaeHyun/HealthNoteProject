@@ -5,10 +5,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jaehyun.healthnote.dataclass.Register
 import com.jaehyun.healthnote.dataclass.RegisterResponse
+import com.jaehyun.healthnote.dataclass.TestResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface Api {
@@ -18,13 +20,16 @@ interface Api {
         @Body jsonParams : Register,
     ): Call<RegisterResponse>
 
+    @GET("/test")
+    fun test(): Call<TestResponse>
+
     companion object {
         private const val BASE_URL = "http://healthnote.cloud"
         val gson : Gson = GsonBuilder().setLenient().create()
 
         fun create() : Api{
 
-            Log.d("Api", "Create 함수 실행 성공2")
+            Log.d("Api", "Api Create 함수 실행 성공")
 
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
