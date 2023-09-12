@@ -22,14 +22,16 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    //다이얼로그 표시하기
     fun showDialog(v : View?){
         //예외상황 함수 강제종료
         val dialog = CustomDialog(this)
         dialog.showDialog(v)
     }
-    //다이얼로그 표시하기
 
 
+
+    //로그인 함수
     fun Login(v : View?){
         val api = Api.create()
 
@@ -73,7 +75,6 @@ class MainActivity : ComponentActivity() {
         })
 
     }
-    //테스트용 임시 함수 (삭제 예정)
 
 
 
