@@ -22,7 +22,9 @@
         android:usesCleartextTraffic="true"
         tools:remove = "android:appComponentFactory"
         tools:targetApi="31">
-        <activity android:name=".HomeActivity"/>
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.DayNight"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

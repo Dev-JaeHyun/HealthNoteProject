@@ -23,6 +23,7 @@ class CustomDialog(context: Context) {
     private val context = context
     private val dialog = Dialog(context)
 
+    //유효성 검사
     fun Validation(type: String): Boolean {
         val idPattern = "^[a-z]+[a-z0-9]{3,15}$" //시작은 영문 4~16글자
         val pwPattern =
@@ -91,9 +92,8 @@ class CustomDialog(context: Context) {
 
         return true
     }
-    //유효성 검사: 통과 시 True 반환 / 조건 미충족 시 False 반환
 
-
+    //받은 View에 따라 맞는 다이얼로그 띄우기
     fun showDialog(v: View?) {
         dialog.setContentView(
             when (v?.id) {
@@ -117,6 +117,8 @@ class CustomDialog(context: Context) {
         dismissBtn.setOnClickListener {
             dialog.dismiss()
         }
+
+
 
         val submitBtn = dialog.findViewById<Button>(R.id.submitBtn) //전송 버튼
         submitBtn.setOnClickListener {

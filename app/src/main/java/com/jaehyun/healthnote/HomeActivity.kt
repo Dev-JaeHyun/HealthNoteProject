@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jaehyun.healthnote.databinding.ActivityHomeBinding
+
 
 private const val TAG_HOME = "home_fragment"
 private const val TAG_LIBRARY = "library_fragment"
@@ -14,16 +16,16 @@ private const val TAG_MYPAGE = "mypage_fragment"
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
+    private lateinit var binding : ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
+
 
         //맨 처음에 보여줄 프래그먼트 설정
-        setFragment(TAG_HOME, HomeFragment  ())
+        setFragment(TAG_HOME, HomeFragment())
 
         //Navi 항목 클릭 시 프래그먼트 변경하는 함수 호출
         binding.navigationView.setOnItemSelectedListener { item ->

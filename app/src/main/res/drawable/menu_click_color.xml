@@ -6,7 +6,7 @@
         android:state_checked="true"/>
 
     <item
-        android:color="@color/white_hint"
+        android:color="@color/grey"
         android:state_checked="false"/>
 
 
