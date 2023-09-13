@@ -44,6 +44,7 @@ class HomeActivity : AppCompatActivity() {
     fun setFragment(tag: String, fragment: Fragment){
         val manager: FragmentManager = supportFragmentManager
         val ft: FragmentTransaction = manager.beginTransaction()
+        
 
         //트랜잭션에 tag로 전달된 fragment가 없을 경우 add
         if(manager.findFragmentByTag(tag) == null){
