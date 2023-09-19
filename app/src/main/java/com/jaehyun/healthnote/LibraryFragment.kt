@@ -1,59 +1,83 @@
 package com.jaehyun.healthnote
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jaehyun.healthnote.databinding.FragmentLibraryBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class LibraryFragment : Fragment(){
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LibraryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class LibraryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding : FragmentLibraryBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library, container, false)
+        binding = FragmentLibraryBinding.inflate(layoutInflater, container, false)
+
+
+        val layoutParams = RelativeLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ) //CardView width, height
+
+        layoutParams.setMargins(16,16,16,50)
+
+        val menuCardView = CardView(layoutInflater.context)
+        menuCardView.radius = 12F
+        menuCardView.setContentPadding(25,25,25,25)
+        menuCardView.setCardBackgroundColor(Color.LTGRAY)
+        menuCardView.maxCardElevation = 12F
+        menuCardView.setOnClickListener{
+            Toast.makeText(layoutInflater.context, "텟스트", Toast.LENGTH_SHORT).show()
+        }
+
+        menuCardView.addView(generateCardView())
+        binding.rootLayout.addView(menuCardView)
+
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LibraryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LibraryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+
+    private fun generateCardView(): LinearLayout {
+
+        val cardLinearLayout = LinearLayout(layoutInflater.context)
+        cardLinearLayout.orientation = LinearLayout.VERTICAL
+
+        val restaurantName = TextView(layoutInflater.context)
+        restaurantName.text = "파스쿠찌 잠실역점"
+        restaurantName.textSize = 24f
+        restaurantName.setTextColor(Color.WHITE)
+
+        val restaurantNumber = TextView(layoutInflater.context)
+        restaurantNumber.text = "02-000-0000"
+        restaurantNumber.textSize = 17f
+        restaurantNumber.setTextColor(Color.WHITE)
+
+        val restaurantAddress = TextView(layoutInflater.context)
+        restaurantAddress.text = "잠실역 7번출구 300m"
+        restaurantAddress.textSize = 17f
+        restaurantAddress.setTextColor(Color.WHITE)
+
+        cardLinearLayout.addView(restaurantName)
+        cardLinearLayout.addView(restaurantNumber)
+        cardLinearLayout.addView(restaurantAddress)
+
+        return cardLinearLayout
     }
+
 }

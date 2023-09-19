@@ -1,8 +1,6 @@
 package com.jaehyun.healthnote.dataclass
 
 data class RegisterResponse(
-    val id : Long,
-    val code : Int,
-    //200: 성공, 400: 클라이언트 실패, 500: 서버 실패
-    val success : Boolean
+    val code : Int
+    //200: 성공, 300: 아이디 중복, 400: 이메일 중복, 500: 아이디&이메일 중복
 )

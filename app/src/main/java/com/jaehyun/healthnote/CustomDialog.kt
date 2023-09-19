@@ -2,6 +2,7 @@ package com.jaehyun.healthnote
 
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
@@ -12,7 +13,14 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import com.jaehyun.healthnote.dataclass.TestResponse
+import com.jaehyun.healthnote.dataclass.ChangePw
+import com.jaehyun.healthnote.dataclass.ChangePwResponse
+import com.jaehyun.healthnote.dataclass.FindId
+import com.jaehyun.healthnote.dataclass.FindIdResponse
+import com.jaehyun.healthnote.dataclass.FindPw
+import com.jaehyun.healthnote.dataclass.FindPwResponse
+import com.jaehyun.healthnote.dataclass.Register
+import com.jaehyun.healthnote.dataclass.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,8 +30,10 @@ class CustomDialog(context: Context) {
 
     private val context = context
     private val dialog = Dialog(context)
+    private var ID : Long? = null
 
     //유효성 검사
+    //성공하면 True, 실패하면 False
     fun Validation(type: String): Boolean {
         val idPattern = "^[a-z]+[a-z0-9]{3,15}$" //시작은 영문 4~16글자
         val pwPattern =
@@ -125,26 +135,35 @@ class CustomDialog(context: Context) {
             val api = Api.create()
 
             when (v?.id) {
+                //아이디 찾기 다이얼로그
                 R.id.findIdBtn -> {
                     if (!Validation("EMAIL")) {
                         return@setOnClickListener
                     }
 
-                    api.test().enqueue(object : Callback<TestResponse> {
+                    var userInfo = FindId(
+                        email = dialog.findViewById<EditText>(R.id.inputemail).text.toString()
+                    )
+
+                    api.userFindId(userInfo).enqueue(object : Callback<FindIdResponse> {
                         override fun onResponse(
-                            call: Call<TestResponse>,
-                            response: Response<TestResponse>
+                            call: Call<FindIdResponse>,
+                            response: Response<FindIdResponse>
                         ) {
                             when (response.code()) {
                                 200 -> {
                                     dialog.dismiss()
-                                    Toast.makeText(context, "아이디 출력: ", Toast.LENGTH_SHORT).show()
-                                }
+                                    val printText = "아이디 출력 : " + response.body()?.userId
+                                    Toast.makeText(context, printText, Toast.LENGTH_SHORT).show()
+                                } //성공
+                                400 -> {
+                                    Toast.makeText(context, "해당 이메일로 가입된 계정이 없습니다", Toast.LENGTH_SHORT).show()
+                                } //실패 (이메일 오류)
                             }
                         }
 
-                        override fun onFailure(call: Call<TestResponse>, t: Throwable) {
-                            Log.d("findidBtn", "Submit 실패")
+                        override fun onFailure(call: Call<FindIdResponse>, t: Throwable) {
+                            Log.d("아이디찾기", "Submit 실패")
                         }
                     })
                 }
@@ -156,23 +175,37 @@ class CustomDialog(context: Context) {
                         return@setOnClickListener
                     }
 
-                    api.test().enqueue(object : Callback<TestResponse> {
+                    val userInfo = FindPw (
+                        userId = dialog.findViewById<EditText>(R.id.inputid).text.toString(),
+                        email = dialog.findViewById<EditText>(R.id.inputemail).text.toString()
+                    )
+
+                    api.userFindPw(userInfo).enqueue(object : Callback<FindPwResponse> {
                         override fun onResponse(
-                            call: Call<TestResponse>,
-                            response: Response<TestResponse>
+                            call: Call<FindPwResponse>,
+                            response: Response<FindPwResponse>
                         ) {
                             when (response.code()) {
                                 200 -> {
                                     dialog.dismiss()
+
+                                    val pref : SharedPreferences =
+                                        context.getSharedPreferences("HealthNote", Context.MODE_PRIVATE)
+                                    val ID : Long = response.body()!!.id
+                                    pref.edit().putLong("ID", ID).apply()
+                                    
                                     val changePw = dialog.findViewById<TextView>(R.id.changePw)
-                                    CustomDialog(context).showDialog(changePw)
-                                    //다이얼로그 변경
+                                    CustomDialog(context).showDialog(changePw) //다이얼로그 변경
+
                                     Toast.makeText(context, "비밀번호 인증", Toast.LENGTH_SHORT).show()
-                                }
+                                } //성공
+                                400 -> {
+                                    Toast.makeText(context, "아이디 혹은 이메일 불일치", Toast.LENGTH_SHORT).show()
+                                } //실패 (인증 실패)
                             }
                         }
 
-                        override fun onFailure(call: Call<TestResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<FindPwResponse>, t: Throwable) {
                             Log.d("findpwBtn", "Submit 실패")
                         }
                     })
@@ -185,48 +218,87 @@ class CustomDialog(context: Context) {
                         return@setOnClickListener
                     }
 
-                    api.test().enqueue(object : Callback<TestResponse> {
+                    val pref : SharedPreferences =
+                        context.getSharedPreferences("HealthNote", Context.MODE_PRIVATE)
+
+                    val changeInfo = ChangePw(
+                        id = pref.getLong("ID", 0),
+                        userPass = dialog.findViewById<EditText>(R.id.inputpw).text.toString()
+                    )
+
+                    api.userChangePw(changeInfo).enqueue(object : Callback<ChangePwResponse> {
                         override fun onResponse(
-                            call: Call<TestResponse>,
-                            response: Response<TestResponse>
+                            call: Call<ChangePwResponse>,
+                            response: Response<ChangePwResponse>
                         ) {
+
+
                             when (response.code()) {
                                 200 -> {
                                     dialog.dismiss()
-                                    Toast.makeText(context, "비밀번호 변경", Toast.LENGTH_SHORT).show()
-                                }
+                                    
+                                    Toast.makeText(context, "비밀번호 변경 완료", Toast.LENGTH_SHORT).show()
+                                } //성공
+                                
+                                400 -> {
+                                    Toast.makeText(context, "비밀번호 변경 실패", Toast.LENGTH_SHORT).show()
+                                } //회원번호 오류
                             }
                         }
 
-                        override fun onFailure(call: Call<TestResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<ChangePwResponse>, t: Throwable) {
                             Log.d("changePw", "Submit 실패")
                         }
                     })
                 }
 
                 R.id.registerBtn -> {
-                    var resultValidation = Validation("ID")
-                    resultValidation = !(Validation("PW") && resultValidation)
-                    resultValidation = !(Validation("NAME") && resultValidation)
-                    resultValidation = !(Validation("EMAIL") && resultValidation)
-                    if (resultValidation) {
+                    var resultValidation : Boolean = Validation("ID")
+                    resultValidation = Validation("PW") && resultValidation
+                    resultValidation = Validation("NAME") && resultValidation
+                    resultValidation = Validation("EMAIL") && resultValidation
+                    if (!resultValidation) {
                         return@setOnClickListener
                     }
 
-                    api.test().enqueue(object : Callback<TestResponse> {
+                    var register = Register(
+                        userId = dialog.findViewById<EditText>(R.id.inputid).text.toString(),
+                        userPass = dialog.findViewById<EditText>(R.id.inputpw).text.toString(),
+                        userName = dialog.findViewById<EditText>(R.id.inputname).text.toString(),
+                        email = dialog.findViewById<EditText>(R.id.inputemail).text.toString()
+                    )
+
+
+                    api.userRegister(register).enqueue(object : Callback<RegisterResponse> {
                         override fun onResponse(
-                            call: Call<TestResponse>,
-                            response: Response<TestResponse>
+                            call: Call<RegisterResponse>,
+                            response: Response<RegisterResponse>
                         ) {
                             when (response.code()) {
                                 200 -> {
                                     dialog.dismiss()
                                     Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                                }
+                                } //로그인 성공
+
+                                300 -> {
+                                    dialog.findViewById<TextView>(R.id.warnid).setText("아이디가 존재합니다")
+                                    Toast.makeText(context, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                                } //아이디 중복
+
+                                400 -> {
+                                    dialog.findViewById<TextView>(R.id.warnemail).setText("사용중인 이메일입니다")
+                                    Toast.makeText(context, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                                } //이메일 중복
+
+                                500 -> {
+                                    dialog.findViewById<TextView>(R.id.warnid).setText("아이디가 존재합니다")
+                                    dialog.findViewById<TextView>(R.id.warnemail).setText("사용중인 이메일입니다")
+                                    Toast.makeText(context, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                                } //아이디, 이메일 중복
                             }
                         }
 
-                        override fun onFailure(call: Call<TestResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                             Log.d("Register", "Submit 실패")
                         }
                     })

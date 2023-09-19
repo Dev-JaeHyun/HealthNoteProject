@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LibraryFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context=".LibraryFragment"
+    android:background="@color/black"
+    android:orientation="vertical">
+    
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/libraryNav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="라이브러리 프래그먼트" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        app:menu="@menu/library_menu"
+        app:itemIconTint="@drawable/menu_click_color"
+        app:itemTextColor="@drawable/menu_click_color"
+        android:background="@color/white"
+        app:labelVisibilityMode="labeled"
+        />
 
-</FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/root_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

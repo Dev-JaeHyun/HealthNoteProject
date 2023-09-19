@@ -73,7 +73,7 @@
                 android:background="@drawable/login_edge"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:maxLength="15"
+                android:maxLength="30"
                 android:hint="@string/email"
                 android:textColorHighlight="@color/white_hint"
                 android:textColorHint="@color/white_hint"
