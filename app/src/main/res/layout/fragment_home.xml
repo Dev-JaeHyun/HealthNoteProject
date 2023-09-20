@@ -76,7 +76,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_weight="3"
-            android:weightSum="7">
+            android:weightSum="8">
 
             <Button
                 android:layout_width="wrap_content"
@@ -85,6 +85,7 @@
                 android:background="@drawable/button_background"
                 android:drawableStart="@drawable/ic_exercise"
                 android:drawableTint="@color/white"
+                android:paddingStart="10dp"
                 android:text="운동하기"
                 android:textSize="20sp"
                 android:textColor="@color/white"
@@ -93,12 +94,13 @@
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="2"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
+                android:paddingStart="10dp"
                 android:background="@drawable/button_background"
                 android:drawableStart="@drawable/ic_calendar"
                 android:drawableTint="@color/white"
@@ -150,7 +152,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="운동완료"
+                        android:text="운동 시간"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
@@ -159,23 +161,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="20dp"
-                        android:text="3 / 7 일"
-                        android:textColor="@color/warm_red"
+                        android:text="10 분"
+                        android:textColor="@color/yellow"
                         android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="운동시간"
+                        android:text="이번 주 중량"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/checkTime"
+                        android:id="@+id/checkWeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="20dp"
-                        android:text="180 / 420 분"
+                        android:text="1,000 kg"
                         android:textColor="@color/warm_blue"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -200,6 +202,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/white"
+                />
+
             <!--각 요일 통계 표시 -->
             <LinearLayout
                 android:id="@+id/dayTime"
@@ -208,7 +216,7 @@
                 android:orientation="vertical"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:weightSum="3">
+                android:weightSum="1">
 
 
                 <!--월~금 날짜 표시-->
@@ -220,153 +228,92 @@
                     android:gravity="center">
                     
                     <TextView
+                        android:id="@+id/day1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="월"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     <TextView
+                        android:id="@+id/day2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="화"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     <TextView
+                        android:id="@+id/day3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="수"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     <TextView
+                        android:id="@+id/day4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="목"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     <TextView
+                        android:id="@+id/day5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="금"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     <TextView
+                        android:id="@+id/day6"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="토"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     <TextView
+                        android:id="@+id/day7"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/white"
                         android:text="일"
+                        android:foreground="@drawable/ic_check"
+                        android:foregroundTint="@color/warm_red"
+                        android:foregroundGravity="center"
                         android:textSize="20sp"
                         android:gravity="center"/>
                     
                 </LinearLayout>
 
-                <!--요일별 체크표시-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:weightSum="7"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/mon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_check"
-                        android:drawableTint="@color/warm_blue"
-                        android:textColor="@color/warm_blue"
-                        android:text="60m"
-                        android:gravity="center"
-                        />
-                    <TextView
-                        android:id="@+id/tus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_check"
-                        android:drawableTint="@color/warm_blue"
-                        android:textColor="@color/warm_blue"
-                        android:text="60m"
-                        android:gravity="center"
-                        android:visibility="invisible"
-                        />
-                    <TextView
-                        android:id="@+id/wed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_check"
-                        android:drawableTint="@color/warm_blue"
-                        android:textColor="@color/warm_blue"
-                        android:text="60m"
-                        android:gravity="center"
-                        />
-                    <TextView
-                        android:id="@+id/thu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_check"
-                        android:drawableTint="@color/warm_blue"
-                        android:textColor="@color/warm_blue"
-                        android:text="60m"
-                        android:gravity="center"
-                        android:visibility="invisible"
-                        />
-                    <TextView
-                        android:id="@+id/fri"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_check"
-                        android:drawableTint="@color/warm_blue"
-                        android:textColor="@color/warm_blue"
-                        android:text="60m"
-                        android:gravity="center"
-                        android:visibility="invisible"
-                        />
-                    <TextView
-                    android:id="@+id/sat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_check"
-                    android:drawableTint="@color/warm_blue"
-                    android:textColor="@color/warm_blue"
-                    android:text="60m"
-                    android:gravity="center"
-                    />
-                    <TextView
-                    android:id="@+id/sun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_check"
-                    android:drawableTint="@color/warm_blue"
-                    android:textColor="@color/warm_blue"
-                    android:text="60m"
-                    android:gravity="center"
-                    android:visibility="invisible"
-                    />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
                 when(response.code()){
                     200 -> {
-                        val pref : SharedPreferences = getPreferences(Context.MODE_PRIVATE)
+                        val pref : SharedPreferences = getSharedPreferences("HealthNote", Context.MODE_PRIVATE)
                         pref.edit().putLong("ID", response.body()!!.id).apply()  //로그인 성공 시 고유 넘버(ID) 저장
                         
                         val intent = Intent(this@MainActivity, HomeActivity::class.java)
