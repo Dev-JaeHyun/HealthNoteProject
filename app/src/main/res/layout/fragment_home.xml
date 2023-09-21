@@ -41,13 +41,14 @@
             />
 
         <ImageButton
+            android:id="@+id/settingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_setting"
             android:backgroundTint="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -136,18 +137,35 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="4"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <!--완료 일수, 시간 표시 -->
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start|center"
                     android:orientation="vertical"
-                    android:paddingStart="20dp">
+                    android:paddingStart="20dp"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="운동 완료"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/checkDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="3/7 일"
+                        android:textColor="@color/warm_red"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -157,27 +175,11 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/checkDay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="20dp"
-                        android:text="10 분"
-                        android:textColor="@color/yellow"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="이번 주 중량"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                    <TextView
                         android:id="@+id/checkWeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="20dp"
-                        android:text="1,000 kg"
+                        android:text="180/420 분"
                         android:textColor="@color/warm_blue"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -186,17 +188,63 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="2">
+                    android:layout_weight="3"
+                    android:layout_margin="15dp">
+
+
+                    <!-- 동기화 버튼 -->
+                    <ImageButton
+                        android:id="@+id/reload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_reload"
+                        android:backgroundTint="@color/white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <ProgressBar
+                        android:id="@+id/dayProgress"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:progressBackgroundTint="@color/white"
+                        android:indeterminate="false"
                         android:progressTint="@color/warm_red"
+                        android:max="7"
+                        android:progress="3"
+                        android:progressDrawable="@drawable/circle_progressbar"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ProgressBar
+                        android:id="@+id/timeProgress"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="false"
+                        android:progressTint="@color/warm_blue"
+                        android:max="420"
+                        android:progress="180"
+                        android:progressDrawable="@drawable/circle_inner_progressbar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="15dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/warm_blue"
+                        android:drawableTop="@drawable/ic_exercise"
+                        android:drawableTint="@color/purple_200"
+                        android:text="180m"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -213,105 +261,193 @@
                 android:id="@+id/dayTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:weightSum="1">
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:gravity="center">
 
 
-                <!--월~금 날짜 표시-->
+                <!-- 월요일 -->
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:weightSum="7"
-                    android:gravity="center">
-                    
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="월"
+                        android:textSize="20sp"
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day1"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!-- 화요일 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="월"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
+                        android:text="화"
                         android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day2"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!-- 수요일 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="화"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
+                        android:text="수"
                         android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day3"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!-- 목요일 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="수"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
+                        android:text="목"
                         android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day4"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!-- 금요일 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="목"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
+                        android:text="금"
                         android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day5"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!-- 토요일 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="금"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
+                        android:text="토"
                         android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day6"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!-- 일요일 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="토"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
+                        android:text="일"
                         android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        />
                     <TextView
                         android:id="@+id/day7"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:text="일"
-                        android:foreground="@drawable/ic_check"
-                        android:foregroundTint="@color/warm_red"
-                        android:foregroundGravity="center"
-                        android:textSize="20sp"
-                        android:gravity="center"/>
-                    
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_check"
+                        android:drawableTint="@color/warm_blue"
+                        android:textColor="@color/warm_blue"
+                        android:text="60m"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"/>
                 </LinearLayout>
 
             </LinearLayout>

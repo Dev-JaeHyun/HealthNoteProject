@@ -150,7 +150,7 @@ class CustomDialog(context: Context) {
                             call: Call<FindIdResponse>,
                             response: Response<FindIdResponse>
                         ) {
-                            when (response.code()) {
+                            when (response.body()!!.code) {
                                 200 -> {
                                     dialog.dismiss()
                                     val printText = "아이디 출력 : " + response.body()?.userId
@@ -185,7 +185,7 @@ class CustomDialog(context: Context) {
                             call: Call<FindPwResponse>,
                             response: Response<FindPwResponse>
                         ) {
-                            when (response.code()) {
+                            when (response.body()!!.code) {
                                 200 -> {
                                     dialog.dismiss()
 
@@ -233,7 +233,7 @@ class CustomDialog(context: Context) {
                         ) {
 
 
-                            when (response.code()) {
+                            when (response.body()!!.code) {
                                 200 -> {
                                     dialog.dismiss()
                                     
@@ -274,7 +274,7 @@ class CustomDialog(context: Context) {
                             call: Call<RegisterResponse>,
                             response: Response<RegisterResponse>
                         ) {
-                            when (response.code()) {
+                            when (response.body()!!.code) {
                                 200 -> {
                                     dialog.dismiss()
                                     Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()

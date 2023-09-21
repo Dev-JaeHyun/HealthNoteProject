@@ -50,10 +50,9 @@ class MainActivity : ComponentActivity() {
                 call: Call<LogInResponse>,
                 response: Response<LogInResponse>
             ) {
-                Log.d("로그인 통신 성공",response.toString())
-                Log.d("로그인 통신 성공",response.body().toString())
+                Log.d("로그인 테스트", response.code().toString())
 
-                when(response.code()){
+                when(response.body()!!.code){
                     200 -> {
                         val pref : SharedPreferences = getSharedPreferences("HealthNote", Context.MODE_PRIVATE)
                         pref.edit().putLong("ID", response.body()!!.id).apply()  //로그인 성공 시 고유 넘버(ID) 저장
@@ -68,7 +67,7 @@ class MainActivity : ComponentActivity() {
             }
 
             override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
-                Log.d("테스트 실패",t.message.toString())
+                Log.d("테스트 실패", t.message.toString())
                 Log.d("테스트 실패", "fail")
             }
         })

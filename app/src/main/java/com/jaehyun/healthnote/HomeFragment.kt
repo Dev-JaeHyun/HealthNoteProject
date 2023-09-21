@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.transition.Visibility
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,16 +34,13 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
+        init() //홈 프래그먼트 실행 시 초기화 설정
 
-        val pref : SharedPreferences = layoutInflater.context.getSharedPreferences("HealthNote",Context.MODE_PRIVATE)
-        var ID = pref.getLong("ID", 0)
+        binding.settingButton.setOnClickListener{
+            SettingDialog(layoutInflater.context).showDialog()
+        }
 
-        Log.d("memberID", ID.toString())
-
-
-
-        init()
-
+        binding.reload.setOnClickListener{init()}
 
 
         return binding.root
@@ -63,25 +61,29 @@ class HomeFragment : Fragment() {
                 call: Call<ExerciseWeekInfoResponse>,
                 response: Response<ExerciseWeekInfoResponse>
             ) {
-                when(response.code()){
+                when(response.body()!!.code){
                     200 -> {
-                        binding.checkDay.setText( response.body()!!.totalWeekTime.toString() + " 분" )
 
                         val dec = DecimalFormat("#,###")
                         var weight : Int = response.body()!!.totalWeekWeight
-                        binding.checkWeight.setText( dec.format(weight) + " kg")
+                        binding.checkWeight.setText( dec.format(weight) + " 분")
 
                         var days = response.body()!!.weekExerciseCheck
                         var dayViews : Array<View> = arrayOf(
                             binding.day1, binding.day2, binding.day3,
                             binding.day4, binding.day5, binding.day6, binding.day7
                             )
+
+                        var dayCount = 0
                         for(i in 1..days.size){
                             if(days[i-1]){
-                                dayViews[i-1].foreground = resources.getDrawable(R.drawable.ic_check)
-                            }else{ dayViews[i-1].foreground = null }
+                                dayViews[i-1].visibility = View.VISIBLE
+
+                                dayCount++
+                            }else{ dayViews[i-1].visibility = View.INVISIBLE }
                         }
 
+                        binding.checkDay.setText( dayCount.toString() + "/7 일" )
 
                     } //불러오기 성공
                     400 -> {

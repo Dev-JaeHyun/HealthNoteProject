@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jaehyun.healthnote.dataclass.ChangePw
 import com.jaehyun.healthnote.dataclass.ChangePwResponse
+import com.jaehyun.healthnote.dataclass.ExerciseResetResponse
 import com.jaehyun.healthnote.dataclass.ExerciseWeekInfoResponse
 import com.jaehyun.healthnote.dataclass.FindId
 import com.jaehyun.healthnote.dataclass.FindIdResponse
@@ -19,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -41,6 +43,10 @@ interface Api {
     fun userChangePw( @Body jsonParams: ChangePw ): Call<ChangePwResponse>
     @POST("/api/member/sign-up")
     fun userRegister( @Body jsonParams : Register ): Call<RegisterResponse>
+
+    @DELETE("/exercise")
+    fun resetData( @Query("memberId") memberId: Long ): Call<ExerciseResetResponse>
+
 
     companion object {
         private const val BASE_URL = "http://healthnote.cloud"
