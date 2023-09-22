@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.jaehyun.healthnote.databinding.FragmentHomeBinding
 import com.jaehyun.healthnote.databinding.FragmentLibraryBinding
@@ -63,27 +64,31 @@ class HomeFragment : Fragment() {
             ) {
                 when(response.body()!!.code){
                     200 -> {
-
-                        val dec = DecimalFormat("#,###")
-                        var weight : Int = response.body()!!.totalWeekWeight
-                        binding.checkWeight.setText( dec.format(weight) + " 분")
-
                         var days = response.body()!!.weekExerciseCheck
-                        var dayViews : Array<View> = arrayOf(
+                        var dayViews : Array<TextView> = arrayOf(
                             binding.day1, binding.day2, binding.day3,
                             binding.day4, binding.day5, binding.day6, binding.day7
                             )
 
-                        var dayCount = 0
+                        var dayCount = 0; var timeCount = 0
                         for(i in 1..days.size){
-                            if(days[i-1]){
+                            if(days[i-1] != 0){
                                 dayViews[i-1].visibility = View.VISIBLE
+                                dayViews[i-1].setText( days[i-1].toString() + "m" )
 
                                 dayCount++
+                                timeCount += days[i-1]
                             }else{ dayViews[i-1].visibility = View.INVISIBLE }
                         }
 
                         binding.checkDay.setText( dayCount.toString() + "/7 일" )
+                        binding.checkTime.setText( timeCount.toString() + "/420 분" )
+
+                        binding.dayProgress.max = 7
+                        binding.dayProgress.progress = dayCount
+
+                        binding.timeProgress.max = 420
+                        binding.timeProgress.progress = timeCount
 
                     } //불러오기 성공
                     400 -> {

@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.jaehyun.healthnote.databinding.DialogSettingBinding
+import com.jaehyun.healthnote.dataclass.DeleteAccountResponse
 import com.jaehyun.healthnote.dataclass.ExerciseResetResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -126,8 +127,34 @@ class SettingDialog(context: Context){
                         val pref : SharedPreferences = context.getSharedPreferences("HealthNote", Context.MODE_PRIVATE)
                         val ID = pref.getLong("ID", 0)
 
-                        //API 회원탈퇴 추후 추가
-                        //
+
+                        api.deleteAccount(ID).enqueue(object: Callback<DeleteAccountResponse>{
+                            override fun onResponse(
+                                call: Call<DeleteAccountResponse>,
+                                response: Response<DeleteAccountResponse>
+                            ) {
+                                when(response.body()!!.code){
+                                    200 ->{
+                                        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+                                        if(intent != null){
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                            context.startActivity(intent)
+                                            Runtime.getRuntime().exit(0)
+                                        }
+
+                                        Toast.makeText(context , "정상적으로 회원탈퇴 되었습니다.", Toast.LENGTH_LONG).show()
+                                    }//성공
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<DeleteAccountResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("회원탈퇴", "서버 접속 실패")
+                            }
+                        })
+
                     })
                 .setNegativeButton("취소",
                     DialogInterface.OnClickListener { dialog, which ->

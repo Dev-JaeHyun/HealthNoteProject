@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jaehyun.healthnote.dataclass.ChangePw
 import com.jaehyun.healthnote.dataclass.ChangePwResponse
+import com.jaehyun.healthnote.dataclass.DeleteAccountResponse
 import com.jaehyun.healthnote.dataclass.ExerciseResetResponse
 import com.jaehyun.healthnote.dataclass.ExerciseWeekInfoResponse
 import com.jaehyun.healthnote.dataclass.FindId
@@ -46,6 +47,10 @@ interface Api {
 
     @DELETE("/exercise")
     fun resetData( @Query("memberId") memberId: Long ): Call<ExerciseResetResponse>
+
+    @DELETE("/api/member/withdrawal")
+    fun deleteAccount( @Query("memberId") memberId: Long): Call<DeleteAccountResponse>
+
 
 
     companion object {

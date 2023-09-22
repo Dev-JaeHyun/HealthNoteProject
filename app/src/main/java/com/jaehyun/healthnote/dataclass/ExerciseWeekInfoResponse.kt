@@ -1,10 +1,7 @@
 package com.jaehyun.healthnote.dataclass
 
 data class ExerciseWeekInfoResponse(
-    val totalWeekTime : Int,
-    val totalWeekWeight : Int,
-    val weekExerciseCheck : BooleanArray,
-    val success : Boolean,
+    val weekExerciseCheck : IntArray,
     val code : Int
 
     //200: 불러오기 성공
