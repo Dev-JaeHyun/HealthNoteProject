@@ -14,6 +14,8 @@ import com.jaehyun.healthnote.dataclass.FindPw
 import com.jaehyun.healthnote.dataclass.FindPwResponse
 import com.jaehyun.healthnote.dataclass.LogIn
 import com.jaehyun.healthnote.dataclass.LogInResponse
+import com.jaehyun.healthnote.dataclass.PostProfile
+import com.jaehyun.healthnote.dataclass.PostProfileResponse
 import com.jaehyun.healthnote.dataclass.Register
 import com.jaehyun.healthnote.dataclass.RegisterResponse
 import com.jaehyun.healthnote.dataclass.TestResponse
@@ -33,6 +35,8 @@ interface Api {
     fun test(): Call<TestResponse>
     @GET("/exercise/week")
     fun getExerciseWeekInfo( @Query("memberId") memberId: Long ): Call<ExerciseWeekInfoResponse>
+    @GET("/community/all")
+    fun getCommunity( @Query("front") front: Int): Call<PostProfileResponse>
 
     @POST("/api/member/sign-in")
     fun userLogin( @Body jsonParams: LogIn ): Call<LogInResponse>

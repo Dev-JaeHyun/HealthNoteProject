@@ -83,6 +83,8 @@ class HomeFragment : Fragment() {
 
                         binding.checkDay.setText( dayCount.toString() + "/7 일" )
                         binding.checkTime.setText( timeCount.toString() + "/420 분" )
+                        binding.timetext.setText( timeCount.toString() + "m")
+
 
                         binding.dayProgress.max = 7
                         binding.dayProgress.progress = dayCount
