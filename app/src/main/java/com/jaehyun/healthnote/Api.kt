@@ -12,6 +12,7 @@ import com.jaehyun.healthnote.dataclass.FindId
 import com.jaehyun.healthnote.dataclass.FindIdResponse
 import com.jaehyun.healthnote.dataclass.FindPw
 import com.jaehyun.healthnote.dataclass.FindPwResponse
+import com.jaehyun.healthnote.dataclass.LikeResponse
 import com.jaehyun.healthnote.dataclass.LogIn
 import com.jaehyun.healthnote.dataclass.LogInResponse
 import com.jaehyun.healthnote.dataclass.PostProfile
@@ -33,11 +34,20 @@ interface Api {
 
     @GET("/test")
     fun test(): Call<TestResponse>
+    
+    //홈 화면
     @GET("/exercise/week")
     fun getExerciseWeekInfo( @Query("memberId") memberId: Long ): Call<ExerciseWeekInfoResponse>
+    
+    
+    //게시글(커뮤니티 관련)
+    @GET("/community")
+    fun communityLike( @Query("communityId") communityId: Long, @Query("memberId") memberId: Long): Call<LikeResponse>
     @GET("/community/all")
-    fun getCommunity( @Query("front") front: Int): Call<PostProfileResponse>
+    fun getCommunity( @Query("front") front: Int, @Query("memberId") memberId: Long): Call<PostProfileResponse>
 
+    
+    //유저 관련
     @POST("/api/member/sign-in")
     fun userLogin( @Body jsonParams: LogIn ): Call<LogInResponse>
     @POST("/api/member/find-userId")

@@ -7,5 +7,8 @@ data class PostProfile(
     val title : String,
     val goodCount : Int,
     val userImage : String,
-    val userName : String
+    val userName : String,
+    val likeState: Boolean
+
+
 )

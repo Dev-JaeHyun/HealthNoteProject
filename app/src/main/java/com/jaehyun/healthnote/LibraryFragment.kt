@@ -44,6 +44,7 @@ class LibraryFragment : Fragment(){
         }
 
         menuCardView.addView(generateCardView())
+        menuCardView.addView(generateCardView())
         binding.rootLayout.addView(menuCardView)
 
 

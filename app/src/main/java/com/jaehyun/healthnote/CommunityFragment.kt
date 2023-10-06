@@ -1,5 +1,7 @@
 package com.jaehyun.healthnote
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -30,7 +32,7 @@ class CommunityFragment : Fragment() {
 
         //더미데이터로 lateinit 임시초기화
         var postList = ArrayList<PostProfile>()
-        cAdapter = CustomAdapter(postList)
+        cAdapter = CustomAdapter(postList, 0)
         binding.rv.adapter = cAdapter
 
         binding.rv.layoutManager = LinearLayoutManager(context) //레이아웃 LinearLayout 방식으로 배치 (vertical)
@@ -60,8 +62,13 @@ class CommunityFragment : Fragment() {
     fun loadPosts(index: Int) {
         if(binding == null) return //뷰 바인딩이 실패할 시 리턴
 
+        val pref : SharedPreferences = layoutInflater.context.getSharedPreferences("HealthNote",
+            Context.MODE_PRIVATE)
+        var ID = pref.getLong("ID", 0)
+
+
         val api = Api.create()
-        api.getCommunity(index).enqueue(object: Callback<PostProfileResponse>{
+        api.getCommunity(index, ID).enqueue(object: Callback<PostProfileResponse>{
             override fun onResponse(
                 call: Call<PostProfileResponse>,
                 response: Response<PostProfileResponse>
@@ -75,6 +82,7 @@ class CommunityFragment : Fragment() {
 
                         for(post in posts){
                             cAdapter.addItem(post)
+                            cAdapter.userId = ID
                         } //게시글을 하나씩 어댑터에 추가함
 
                         //어댑터를 게시글 수만큼 추가적으로 갱신
