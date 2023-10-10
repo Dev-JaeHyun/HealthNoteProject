@@ -1,23 +1,24 @@
 package com.jaehyun.healthnote
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.jaehyun.healthnote.databinding.FragmentCommunityBinding
 import com.jaehyun.healthnote.databinding.ItemCommunityBinding
 import com.jaehyun.healthnote.dataclass.LikeResponse
 import com.jaehyun.healthnote.dataclass.PostProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class CustomAdapter(val postProfile: ArrayList<PostProfile>, var userId: Long): RecyclerView.Adapter<CustomAdapter.Holder>() {
     
@@ -91,9 +92,14 @@ class CustomAdapter(val postProfile: ArrayList<PostProfile>, var userId: Long): 
 
 
         //게시글 사진
-        if(postList[position].userImage != null)
-            holder.titleImage.setImageBitmap(decodePicString(postList[position].userImage))
-        holder.postPhoto.setImageBitmap(decodePicString(postList[position].communityPicture))
+        if(postList[position].userImage != null){
+            var circleCropImage : Bitmap? = decodePicString(postList[position].userImage)
+            circleCropImage = getBitmapCircleCrop(circleCropImage!!, 0, 0)
+            if(circleCropImage != null)
+               holder.titleImage.setImageBitmap(circleCropImage)
+        }
+        if(postList[position].communityPicture != null)
+            holder.postPhoto.setImageBitmap(decodePicString(postList[position].communityPicture))
 
         //사진 더블클릭 시 좋아요 버튼 호출
         holder.postPhoto.setOnClickListener{
@@ -127,9 +133,37 @@ class CustomAdapter(val postProfile: ArrayList<PostProfile>, var userId: Long): 
 
     fun decodePicString (encodedString: String): Bitmap {
 
+        Log.d("decodedPicString", encodedString)
+
         val imageBytes = Base64.decode(encodedString, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
         return decodedImage
     }
+    fun getBitmapCircleCrop(bitmap: Bitmap, Width: Int, Height: Int): Bitmap? {
+        val output = Bitmap.createBitmap(
+            bitmap.width,
+            bitmap.height, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(output)
+        val color = -0xbdbdbe
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        paint.setAntiAlias(true)
+        canvas.drawARGB(0, 0, 0, 0)
+        paint.setColor(color)
+        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawCircle(
+            bitmap.width / 2f, bitmap.height / 2f,
+            bitmap.width / 2f, paint
+        )
+        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+        var CroppedBitmap = output
+        //width, Height에 0,0을 넣으면 원본 사이즈 그대로 출력
+        if (Width != 0 && Height != 0) CroppedBitmap =
+            Bitmap.createScaledBitmap(output, Width, Height, false)
+        return CroppedBitmap
+    }
+
 }

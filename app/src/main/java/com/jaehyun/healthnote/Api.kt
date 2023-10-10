@@ -20,6 +20,7 @@ import com.jaehyun.healthnote.dataclass.PostProfileResponse
 import com.jaehyun.healthnote.dataclass.Register
 import com.jaehyun.healthnote.dataclass.RegisterResponse
 import com.jaehyun.healthnote.dataclass.TestResponse
+import com.jaehyun.healthnote.dataclass.UserInfoResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,6 +49,8 @@ interface Api {
 
     
     //유저 관련
+    @GET("/api/myPage/main")
+    fun userInfo( @Query("id") id: Long): Call<UserInfoResponse>
     @POST("/api/member/sign-in")
     fun userLogin( @Body jsonParams: LogIn ): Call<LogInResponse>
     @POST("/api/member/find-userId")

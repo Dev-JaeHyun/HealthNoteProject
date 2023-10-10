@@ -19,8 +19,9 @@
             android:id="@+id/titleImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/warm_blue"
-            android:layout_margin="5dp"/>
+            android:background="@drawable/circle"
+            android:layout_margin="5dp"
+            />
 
         <TextView
             android:id="@+id/titleUsername"
@@ -33,10 +34,11 @@
     <!-- Post -->
     <ImageView
         android:id="@+id/postPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="2dp"
         android:background="@color/warm_red"
+        android:layout_gravity="center"
         />
 
     <!-- Comment -->

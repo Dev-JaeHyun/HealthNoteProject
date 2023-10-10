@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.jaehyun.healthnote.databinding.FragmentHomeBinding
 import com.jaehyun.healthnote.databinding.FragmentLibraryBinding
 import com.jaehyun.healthnote.dataclass.ExerciseWeekInfoResponse
+import com.jaehyun.healthnote.dataclass.UserInfoResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,6 +58,31 @@ class HomeFragment : Fragment() {
         Log.d("ID", ID.toString())
 
         val api = Api.create()
+        //유저이름 받아오기
+        api.userInfo(ID).enqueue(object: Callback<UserInfoResponse>{
+            override fun onResponse(
+                call: Call<UserInfoResponse>,
+                response: Response<UserInfoResponse>
+            ) {
+                when(response.body()!!.code){
+                    200 ->{
+                        val username = response.body()!!.userName
+
+                        binding.helloUser.text = "안녕하세요 '$username'님"
+                    }//성공
+                    400 ->{
+                        Log.d("userInfo","400")
+                    }//회원정보 오류
+                }
+
+            }
+            override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
+                Log.d("userInfo", "유저정보 불러오기 실패")
+            }
+
+        })
+
+        //주간 운동정보 받아오기
         api.getExerciseWeekInfo(ID).enqueue(object: Callback<ExerciseWeekInfoResponse>{
             override fun onResponse(
                 call: Call<ExerciseWeekInfoResponse>,
