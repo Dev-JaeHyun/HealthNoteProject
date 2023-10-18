@@ -111,6 +111,7 @@ class CustomDialog(context: Context) {
                 R.id.findPwBtn -> R.layout.dialog_findpw
                 R.id.registerBtn -> R.layout.dialog_register
                 R.id.changePw -> R.layout.dialog_changepw
+                R.id.editProfile -> R.layout.dialog_editprofile
                 else -> return
             }
         ) //받은 view에 따라 레이아웃 지정
@@ -304,6 +305,9 @@ class CustomDialog(context: Context) {
                     })
 
 
+                }
+                R.id.editProfile -> {
+                    Toast.makeText(context, "테스트 성공", Toast.LENGTH_SHORT).show()
                 }
 
                 else -> return@setOnClickListener

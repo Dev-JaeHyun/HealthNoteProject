@@ -3,7 +3,7 @@ package com.jaehyun.healthnote.dataclass
 data class UserInfoResponse(
     val code : Int,
     val userName : String,
-    val introduce : String,
+    val introduction : String,
     val email : String,
     val userImage : String
 

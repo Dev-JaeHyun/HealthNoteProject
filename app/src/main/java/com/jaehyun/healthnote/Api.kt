@@ -20,6 +20,7 @@ import com.jaehyun.healthnote.dataclass.PostProfileResponse
 import com.jaehyun.healthnote.dataclass.Register
 import com.jaehyun.healthnote.dataclass.RegisterResponse
 import com.jaehyun.healthnote.dataclass.TestResponse
+import com.jaehyun.healthnote.dataclass.UserImagesResponse
 import com.jaehyun.healthnote.dataclass.UserInfoResponse
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -51,6 +52,8 @@ interface Api {
     //유저 관련
     @GET("/api/myPage/main")
     fun userInfo( @Query("id") id: Long): Call<UserInfoResponse>
+    @GET("/community/user/image")
+    fun userImages( @Query("memberId") memberId: Long): Call<UserImagesResponse>
     @POST("/api/member/sign-in")
     fun userLogin( @Body jsonParams: LogIn ): Call<LogInResponse>
     @POST("/api/member/find-userId")
