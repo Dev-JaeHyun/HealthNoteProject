@@ -102,7 +102,6 @@ class MypageFragment : Fragment() {
         })
 
 
-
         binding.editProfile.setOnClickListener{
             val dialog = CustomDialog(layoutInflater.context)
             dialog.showDialog(binding.editProfile)
