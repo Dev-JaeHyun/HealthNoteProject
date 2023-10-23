@@ -5,10 +5,12 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -16,6 +18,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.jaehyun.healthnote.databinding.FragmentMypageBinding
 import com.jaehyun.healthnote.dataclass.EncodingImage
 import com.jaehyun.healthnote.dataclass.UserImagesResponse
@@ -24,9 +28,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MypageFragment : Fragment() {
+class MypageFragment : Fragment(){
 
     private lateinit var binding : FragmentMypageBinding
+
 
 
     override fun onCreateView(
@@ -103,12 +108,20 @@ class MypageFragment : Fragment() {
 
 
         binding.editProfile.setOnClickListener{
-            val dialog = CustomDialog(layoutInflater.context)
-            dialog.showDialog(binding.editProfile)
+            var editDialog = EditProfileFragmentDialog()
+            editDialog.show(
+                parentFragmentManager, "EditProfileFragmentDialog"
+            )
+
+
         }
 
         return binding.root
     }
+
+
+
+
 
     fun decodePicString (encodedString: String): Bitmap {
 
