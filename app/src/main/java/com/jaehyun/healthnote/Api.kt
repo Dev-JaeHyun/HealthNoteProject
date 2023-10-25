@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder
 import com.jaehyun.healthnote.dataclass.ChangePw
 import com.jaehyun.healthnote.dataclass.ChangePwResponse
 import com.jaehyun.healthnote.dataclass.DeleteAccountResponse
+import com.jaehyun.healthnote.dataclass.EditProfile
+import com.jaehyun.healthnote.dataclass.EditProfileResponse
 import com.jaehyun.healthnote.dataclass.ExerciseResetResponse
 import com.jaehyun.healthnote.dataclass.ExerciseWeekInfoResponse
 import com.jaehyun.healthnote.dataclass.FindId
@@ -52,6 +54,8 @@ interface Api {
     //유저 관련
     @GET("/api/myPage/main")
     fun userInfo( @Query("id") id: Long): Call<UserInfoResponse>
+    @POST("/api/member/edit-profile")
+    fun editProfile( @Body jsonParams: EditProfile): Call<EditProfileResponse>
     @GET("/community/user/image")
     fun userImages( @Query("memberId") memberId: Long): Call<UserImagesResponse>
     @POST("/api/member/sign-in")

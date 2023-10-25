@@ -10,33 +10,39 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import com.jaehyun.healthnote.databinding.FragmentEditProfileDialogBinding
+import com.jaehyun.healthnote.dataclass.EditProfile
+import com.jaehyun.healthnote.dataclass.EditProfileResponse
 import com.jaehyun.healthnote.dataclass.UserInfoResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+
 
 class EditProfileFragmentDialog : DialogFragment() {
 
     private lateinit var binding: FragmentEditProfileDialogBinding
+    lateinit var resultImage : String
     val Gallery = 0
 
     override fun onCreateView(
@@ -62,11 +68,7 @@ class EditProfileFragmentDialog : DialogFragment() {
         //초기화
         EditProfileInit()
 
-        //완료 버튼
-        binding.submitBtn.setOnClickListener {
-            val api = Api.create()
-            //전송버튼 api 작성
-        }
+
 
     }
 
@@ -135,6 +137,37 @@ class EditProfileFragmentDialog : DialogFragment() {
         }
 
         //완료 버튼 클릭 시 데이터 전송 리스너 넣기
+        binding.submitBtn.setOnClickListener{
+            var profile = EditProfile(
+                ID,
+                binding.editUsername.text.toString(),
+                binding.editIntroduction.text.toString()
+            )
+
+            api.editProfile(profile).enqueue(object: Callback<EditProfileResponse>{
+
+                override fun onResponse(
+                    call: Call<EditProfileResponse>,
+                    response: Response<EditProfileResponse>
+                ) {
+                    when(response.body()!!.code){
+                        200 ->{
+
+                        }//성공
+                        400 ->{
+                            Log.d("editProfile", "400")
+                        }//실패(회원 코드 오류)
+                    }
+                }
+                override fun onFailure(call: Call<EditProfileResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+
+            })
+
+
+        }
 
     }
 
@@ -143,6 +176,7 @@ class EditProfileFragmentDialog : DialogFragment() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
+
 
         startActivityForResult(Intent.createChooser(intent, "Load Picture"), Gallery)
     }
@@ -186,6 +220,39 @@ class EditProfileFragmentDialog : DialogFragment() {
         return CroppedBitmap
     }
 
+    //이미지 회전 정보 가져오기
+    private fun getOrientationOfImage(uri: Uri): Int {
+        // uri -> inputStream
+        val inputStream = context?.contentResolver!!.openInputStream(uri)
+        val exif: ExifInterface? = try {
+            ExifInterface(inputStream!!)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return -1
+        }
+        inputStream.close()
+
+        // 회전된 각도 알아내기
+        val orientation = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+        if (orientation != -1) {
+            when (orientation) {
+                ExifInterface.ORIENTATION_ROTATE_90 -> return 90
+                ExifInterface.ORIENTATION_ROTATE_180 -> return 180
+                ExifInterface.ORIENTATION_ROTATE_270 -> return 270
+            }
+        }
+        return 0
+    }
+
+    //이미지를 회전시키는 함수
+    private fun getRotatedBitmap(bitmap: Bitmap?, degrees: Float): Bitmap? {
+        if (bitmap == null) return null
+        if (degrees == 0F) return bitmap
+        val m = Matrix()
+        m.setRotate(degrees, bitmap.width.toFloat() / 2, bitmap.height.toFloat() / 2)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, m, true)
+    }
+
     //이미지를 갤러리에서 가져올 때 비트맵으로 변환해주는 함수
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -194,8 +261,19 @@ class EditProfileFragmentDialog : DialogFragment() {
             if(resultCode == Activity.RESULT_OK){
                 var dataUri = data?.data
                 try{
-                    var bitmap : Bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, dataUri)
+                    var bitmap : Bitmap? = MediaStore.Images.Media.getBitmap(context?.contentResolver, dataUri)
+                    val orientation = getOrientationOfImage(dataUri!!).toFloat()
+                    bitmap = getRotatedBitmap(bitmap, orientation)!!
                     binding.userImage.setImageBitmap(bitmap)
+                    //이미지를 circleCrop 속성으로 가운데 한번 자른 뒤
+                    //하단의 코드로 원형으로 재 정제과정
+                    var icon  = binding.userImage.getDrawable()
+                    bitmap = icon.toBitmap(1080, 1080)
+                    binding.userImage.setImageBitmap(getBitmapCircleCrop(bitmap, 1080, 1080))
+
+
+                    //서버 측에 보낼 bitmap 저장
+                    resultImage = BitmapToString(bitmap)!!
                 }catch(e:Exception){
                     Toast.makeText(context, "$e", Toast.LENGTH_SHORT).show()
                 }
@@ -204,4 +282,14 @@ class EditProfileFragmentDialog : DialogFragment() {
             }
         }
     }
+
+    //bitmap 을 base64형 String으로 변환
+    fun BitmapToString(bitmap: Bitmap): String? {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
+        val bytes = baos.toByteArray()
+        return Base64.encodeToString(bytes, Base64.DEFAULT)
+    }
+
+
 }
