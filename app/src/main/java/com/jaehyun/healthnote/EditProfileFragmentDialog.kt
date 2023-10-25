@@ -1,8 +1,10 @@
 package com.jaehyun.healthnote
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,6 +16,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,6 +26,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.jaehyun.healthnote.databinding.FragmentEditProfileDialogBinding
 import com.jaehyun.healthnote.dataclass.UserInfoResponse
@@ -33,7 +37,7 @@ import retrofit2.Response
 class EditProfileFragmentDialog : DialogFragment() {
 
     private lateinit var binding: FragmentEditProfileDialogBinding
-
+    val Gallery = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,6 +112,7 @@ class EditProfileFragmentDialog : DialogFragment() {
         })
 
 
+        //이미지 선택 dialog 표시
         binding.imageSelect.setOnClickListener {
             val builder = AlertDialog.Builder(context)
                 .setTitle("사진 선택")
@@ -115,6 +120,8 @@ class EditProfileFragmentDialog : DialogFragment() {
                 .setPositiveButton("불러오기",
                     DialogInterface.OnClickListener { dialog, which ->
                         //갤러리 열기
+                        loadImage()
+
                         dialog.dismiss()
                     })
                 .setNegativeButton("초기화",
@@ -130,6 +137,16 @@ class EditProfileFragmentDialog : DialogFragment() {
         //완료 버튼 클릭 시 데이터 전송 리스너 넣기
 
     }
+
+    //갤러리에서 사진 가져오기
+    private fun loadImage(){
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(Intent.createChooser(intent, "Load Picture"), Gallery)
+    }
+
 
     //사진 비트맵 변환
     fun decodePicString (encodedString: String): Bitmap {
@@ -169,7 +186,22 @@ class EditProfileFragmentDialog : DialogFragment() {
         return CroppedBitmap
     }
 
-    //이미지를 클릭할 시에 data에 uri를 bitmap으로 바꿔주는 함수
+    //이미지를 갤러리에서 가져올 때 비트맵으로 변환해주는 함수
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-
+        if(requestCode == Gallery){
+            if(resultCode == Activity.RESULT_OK){
+                var dataUri = data?.data
+                try{
+                    var bitmap : Bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, dataUri)
+                    binding.userImage.setImageBitmap(bitmap)
+                }catch(e:Exception){
+                    Toast.makeText(context, "$e", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                //something error
+            }
+        }
+    }
 }
