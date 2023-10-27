@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.jaehyun.healthnote.dataclass.ChangePw
 import com.jaehyun.healthnote.dataclass.ChangePwResponse
 import com.jaehyun.healthnote.dataclass.DeleteAccountResponse
+import com.jaehyun.healthnote.dataclass.EditImageResponse
 import com.jaehyun.healthnote.dataclass.EditProfile
 import com.jaehyun.healthnote.dataclass.EditProfileResponse
 import com.jaehyun.healthnote.dataclass.ExerciseResetResponse
@@ -17,20 +18,23 @@ import com.jaehyun.healthnote.dataclass.FindPwResponse
 import com.jaehyun.healthnote.dataclass.LikeResponse
 import com.jaehyun.healthnote.dataclass.LogIn
 import com.jaehyun.healthnote.dataclass.LogInResponse
-import com.jaehyun.healthnote.dataclass.PostProfile
 import com.jaehyun.healthnote.dataclass.PostProfileResponse
 import com.jaehyun.healthnote.dataclass.Register
 import com.jaehyun.healthnote.dataclass.RegisterResponse
 import com.jaehyun.healthnote.dataclass.TestResponse
 import com.jaehyun.healthnote.dataclass.UserImagesResponse
 import com.jaehyun.healthnote.dataclass.UserInfoResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface Api {
@@ -56,6 +60,12 @@ interface Api {
     fun userInfo( @Query("id") id: Long): Call<UserInfoResponse>
     @POST("/api/member/edit-profile")
     fun editProfile( @Body jsonParams: EditProfile): Call<EditProfileResponse>
+    @Multipart
+    @POST("/api/myPage/userImage")
+    fun editImage(
+        @Part("mpJson") mpJson : RequestBody,
+        @Part userImage : MultipartBody.Part?
+    ): Call<EditImageResponse>
     @GET("/community/user/image")
     fun userImages( @Query("memberId") memberId: Long): Call<UserImagesResponse>
     @POST("/api/member/sign-in")

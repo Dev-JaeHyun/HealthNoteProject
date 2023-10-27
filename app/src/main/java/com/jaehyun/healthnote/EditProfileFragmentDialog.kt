@@ -29,20 +29,26 @@ import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import com.jaehyun.healthnote.databinding.FragmentEditProfileDialogBinding
+import com.jaehyun.healthnote.dataclass.EditImageResponse
 import com.jaehyun.healthnote.dataclass.EditProfile
 import com.jaehyun.healthnote.dataclass.EditProfileResponse
 import com.jaehyun.healthnote.dataclass.UserInfoResponse
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 
 
 class EditProfileFragmentDialog : DialogFragment() {
 
     private lateinit var binding: FragmentEditProfileDialogBinding
-    lateinit var resultImage : String
+    private var uploadImage : MultipartBody.Part? = null
     val Gallery = 0
 
     override fun onCreateView(
@@ -138,35 +144,66 @@ class EditProfileFragmentDialog : DialogFragment() {
 
         //완료 버튼 클릭 시 데이터 전송 리스너 넣기
         binding.submitBtn.setOnClickListener{
+            //유저 닉네임과 소개문구 보내기
             var profile = EditProfile(
                 ID,
                 binding.editUsername.text.toString(),
                 binding.editIntroduction.text.toString()
             )
-
             api.editProfile(profile).enqueue(object: Callback<EditProfileResponse>{
-
                 override fun onResponse(
                     call: Call<EditProfileResponse>,
                     response: Response<EditProfileResponse>
                 ) {
                     when(response.body()!!.code){
                         200 ->{
-
+                            Log.d("EditPorfile", "200")
                         }//성공
                         400 ->{
-                            Log.d("editProfile", "400")
+                            Log.d("EditProfile", "400")
                         }//실패(회원 코드 오류)
                     }
                 }
                 override fun onFailure(call: Call<EditProfileResponse>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
-
-
             })
 
+            if(uploadImage != null) {
+                val jsonObject = "{\"id\":${ID}}"
+                val jsonBody = RequestBody.create(MediaType.parse("application/json"),jsonObject)
+                api.editImage(jsonBody, uploadImage).enqueue(object : Callback<EditImageResponse> {
+                        override fun onResponse(
+                            call: Call<EditImageResponse>,
+                            response: Response<EditImageResponse>
+                        ) {
+                            when (response.body()!!.code) {
+                                200 -> {
+                                    Log.d("EditImage", "200")
+                                } //성공
+                                400 -> {
+                                    Log.d("EditImage", "400")
+                                } //실패 : 클라이언트 오류
+                            }
+                        }
 
+                        override fun onFailure(call: Call<EditImageResponse>, t: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+            }
+
+            val intent = context?.packageManager?.getLaunchIntentForPackage(context?.packageName!!)
+            if(intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                context?.startActivity(intent)
+                Runtime.getRuntime().exit(0)
+            }
+
+            Toast.makeText(context, "정보가 수정되어 로그아웃됩니다.",Toast.LENGTH_LONG).show()
+
+            dialog!!.dismiss()
         }
 
     }
@@ -273,7 +310,15 @@ class EditProfileFragmentDialog : DialogFragment() {
 
 
                     //서버 측에 보낼 bitmap 저장
-                    resultImage = BitmapToString(bitmap)!!
+                    val file = File(data?.data!!.path)
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 0, byteArrayOutputStream)
+                    val requestBody = RequestBody.create(
+                        MediaType.parse("image/jpg"),
+                        byteArrayOutputStream.toByteArray()
+                    )
+                    uploadImage = MultipartBody.Part.createFormData("userImage", file.getName(), requestBody)
+
                 }catch(e:Exception){
                     Toast.makeText(context, "$e", Toast.LENGTH_SHORT).show()
                 }
@@ -282,14 +327,4 @@ class EditProfileFragmentDialog : DialogFragment() {
             }
         }
     }
-
-    //bitmap 을 base64형 String으로 변환
-    fun BitmapToString(bitmap: Bitmap): String? {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
-        val bytes = baos.toByteArray()
-        return Base64.encodeToString(bytes, Base64.DEFAULT)
-    }
-
-
 }

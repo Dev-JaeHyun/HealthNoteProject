@@ -132,7 +132,6 @@ class HomeFragment : Fragment() {
                 Toast.makeText(layoutInflater.context, "초기화 실패", Toast.LENGTH_SHORT).show()
             }
 
-
         })
 
     }
