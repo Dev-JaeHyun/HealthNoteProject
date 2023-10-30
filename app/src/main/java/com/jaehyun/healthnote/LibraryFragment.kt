@@ -1,5 +1,7 @@
 package com.jaehyun.healthnote
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.jaehyun.healthnote.databinding.FragmentLibraryBinding
 import com.jaehyun.healthnote.dataclass.Exercise
 import com.jaehyun.healthnote.dataclass.ExerciseListResponse
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,6 +56,16 @@ class LibraryFragment : Fragment(){
 
             true
         })
+
+        //운동 리스트 초기화
+        val pref : SharedPreferences = inflater.context.getSharedPreferences("HealthNote",
+            Context.MODE_PRIVATE)
+        var jsonArray = JSONArray()
+
+        with(pref.edit()){
+            putString("LibList", jsonArray.toString())
+            commit()
+        }
 
 
         return binding.root

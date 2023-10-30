@@ -55,8 +55,6 @@ class HomeFragment : Fragment() {
         val pref : SharedPreferences = layoutInflater.context.getSharedPreferences("HealthNote",Context.MODE_PRIVATE)
         var ID = pref.getLong("ID", 0)
 
-        Log.d("ID", ID.toString())
-
         val api = Api.create()
         //유저이름 받아오기
         api.userInfo(ID).enqueue(object: Callback<UserInfoResponse>{
