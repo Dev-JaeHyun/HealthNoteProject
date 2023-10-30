@@ -102,8 +102,6 @@ class LibraryAdapter(var lists: List<Exercise>) : RecyclerView.Adapter<LibraryAd
         holder.exer_check = false
         if(libList.isNotEmpty()) {
             libList.sort()
-
-
             if(libList.binarySearch(holder.exer_id) >= 0) {
                 holder.exer_check = true
             }
