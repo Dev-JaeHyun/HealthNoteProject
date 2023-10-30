@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/popup_background">
+
+    <TextView
+        android:id="@+id/exerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="운동 이름"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:layout_gravity="start"
+        />
+
+    <TextView
+        android:id="@+id/exerDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:text="운동 설명\n1.설명을 한다.\n2.잘 적는다\n3.아무거나 적는다"
+        android:layout_marginHorizontal="10dp"
+        />
+
+    <TextView
+        android:id="@+id/exerUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="http://www.youtube.com/"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:textSize="15dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+
+
+</LinearLayout>

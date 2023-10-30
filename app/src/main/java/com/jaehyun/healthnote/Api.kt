@@ -9,6 +9,8 @@ import com.jaehyun.healthnote.dataclass.DeleteAccountResponse
 import com.jaehyun.healthnote.dataclass.EditImageResponse
 import com.jaehyun.healthnote.dataclass.EditProfile
 import com.jaehyun.healthnote.dataclass.EditProfileResponse
+import com.jaehyun.healthnote.dataclass.ExerciseInfoResponse
+import com.jaehyun.healthnote.dataclass.ExerciseListResponse
 import com.jaehyun.healthnote.dataclass.ExerciseResetResponse
 import com.jaehyun.healthnote.dataclass.ExerciseWeekInfoResponse
 import com.jaehyun.healthnote.dataclass.FindId
@@ -84,6 +86,13 @@ interface Api {
 
     @DELETE("/api/member/withdrawal")
     fun deleteAccount( @Query("memberId") memberId: Long): Call<DeleteAccountResponse>
+
+    //라이브러리 관련
+    @GET("api/library/exercise-info")
+    fun getExerciseInfo( @Query("exerciseNumber") exerciseNumber: Int): Call<ExerciseInfoResponse>
+    @GET("api/library/exercise-list")
+    fun getExerciseList( @Query("exerciseNumber") exerciseNumber: Int): Call<ExerciseListResponse>
+    //100(하체), 200(가슴), 300(등), 400(어깨), 500(팔)
 
 
 

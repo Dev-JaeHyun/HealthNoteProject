@@ -4,12 +4,12 @@
         <item android:id="@+id/lower"
             android:icon="@drawable/ic_number_1"
             android:title="하체"/>
-        <item android:id="@+id/back"
-            android:icon="@drawable/ic_number_2"
-            android:title="등"/>
         <item android:id="@+id/chest"
-            android:icon="@drawable/ic_number_3"
+            android:icon="@drawable/ic_number_2"
             android:title="가슴"/>
+        <item android:id="@+id/back"
+            android:icon="@drawable/ic_number_3"
+            android:title="등"/>
         <item android:id="@+id/sholder"
             android:icon="@drawable/ic_number_4"
             android:title="어깨"/>
