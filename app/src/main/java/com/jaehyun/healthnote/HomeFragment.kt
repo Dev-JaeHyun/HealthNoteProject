@@ -12,6 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jaehyun.healthnote.databinding.FragmentHomeBinding
 import com.jaehyun.healthnote.databinding.FragmentLibraryBinding
 import com.jaehyun.healthnote.dataclass.ExerciseWeekInfoResponse
@@ -23,10 +26,10 @@ import java.text.DecimalFormat
 import java.time.DayOfWeek
 import java.util.Calendar
 
-class HomeFragment : Fragment() {
+class HomeFragment(fragmentActivity: FragmentActivity) : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
-
+    private var activity = fragmentActivity
 
 
     override fun onCreateView(
@@ -43,6 +46,14 @@ class HomeFragment : Fragment() {
         }
 
         binding.reload.setOnClickListener{init()}
+        binding.exerBtn.setOnClickListener{
+            var transaction: FragmentTransaction = activity.supportFragmentManager.beginTransaction()
+            var libraryFragment = LibraryVpFragment(activity)
+
+            transaction.replace(R.id.homeFrameLayout, libraryFragment)
+            binding.root.rootView.findViewById<BottomNavigationView>(R.id.navigationView).selectedItemId = R.id.libraryFragment
+            transaction.commit()
+        }
 
 
         return binding.root

@@ -10,7 +10,7 @@ import com.jaehyun.healthnote.databinding.ActivityHomeBinding
 
 
 private const val TAG_HOME = "home_fragment"
-private const val TAG_LIBRARY = "library_fragment"
+private const val TAG_LIBRARY = "library_fragment_vp"
 private const val TAG_COMMUNITY = "community_fragment"
 private const val TAG_MYPAGE = "mypage_fragment"
 
@@ -25,13 +25,13 @@ class HomeActivity : AppCompatActivity() {
 
 
         //맨 처음에 보여줄 프래그먼트 설정
-        setFragment(TAG_HOME, HomeFragment())
+        setFragment(TAG_HOME, HomeFragment(this))
 
         //Navi 항목 클릭 시 프래그먼트 변경하는 함수 호출
         binding.navigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
-                R.id.libraryFragment -> setFragment(TAG_LIBRARY, LibraryFragment())
+                R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment(this))
+                R.id.libraryFragment -> setFragment(TAG_LIBRARY, LibraryVpFragment(this))
                 R.id.communityFragment -> setFragment(TAG_COMMUNITY, CommunityFragment())
                 R.id.mypageFragment -> setFragment(TAG_MYPAGE, MypageFragment())
             }
