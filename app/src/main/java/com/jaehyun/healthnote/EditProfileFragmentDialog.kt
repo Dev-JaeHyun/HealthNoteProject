@@ -188,7 +188,7 @@ class EditProfileFragmentDialog : DialogFragment() {
                         }
 
                         override fun onFailure(call: Call<EditImageResponse>, t: Throwable) {
-                            TODO("Not yet implemented")
+                            Log.d("plz", jsonObject + uploadImage.toString())
                         }
 
                     })

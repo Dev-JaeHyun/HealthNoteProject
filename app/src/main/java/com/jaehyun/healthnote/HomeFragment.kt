@@ -52,6 +52,7 @@ class HomeFragment(fragmentActivity: FragmentActivity) : Fragment() {
 
             transaction.replace(R.id.homeFrameLayout, libraryFragment)
             binding.root.rootView.findViewById<BottomNavigationView>(R.id.navigationView).selectedItemId = R.id.libraryFragment
+            binding.root.rootView.findViewById<BottomNavigationView>(R.id.navigationView).isItemHorizontalTranslationEnabled
             transaction.commit()
         }
 

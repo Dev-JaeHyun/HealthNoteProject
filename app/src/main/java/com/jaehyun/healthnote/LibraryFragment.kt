@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationBarView
 import com.jaehyun.healthnote.databinding.FragmentLibraryBinding
 import com.jaehyun.healthnote.dataclass.Exercise
@@ -21,7 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LibraryFragment : Fragment(){
+class LibraryFragment(var vp: ViewPager2) : Fragment(){
 
     private lateinit var binding : FragmentLibraryBinding
     private lateinit var viewAdapter : RecyclerView.Adapter<*>
@@ -65,6 +66,11 @@ class LibraryFragment : Fragment(){
         with(pref.edit()){
             putString("LibList", jsonArray.toString())
             commit()
+        }
+
+        //운동 하러가기 버튼 활성화
+        binding.libBtn.setOnClickListener{
+            vp.currentItem = 1
         }
 
 

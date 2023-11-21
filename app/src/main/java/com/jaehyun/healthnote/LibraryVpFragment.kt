@@ -26,7 +26,7 @@ class LibraryVpFragment(fragmentActivity: FragmentActivity) : Fragment() {
 
 
         //ViewPager에 띄워줄 Fragment들 초기화
-        val fragmentList = listOf(LibraryFragment(), ExerciseFragment())
+        val fragmentList = listOf(LibraryFragment(binding.vp), ExerciseFragment(binding.vp))
 
         //ViewPager 초기화
         ViewPagerAdapter = ViewPagerAdapter(activity)

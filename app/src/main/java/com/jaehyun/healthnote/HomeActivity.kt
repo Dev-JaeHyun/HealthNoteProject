@@ -28,12 +28,15 @@ class HomeActivity : AppCompatActivity() {
         setFragment(TAG_HOME, HomeFragment(this))
 
         //Navi 항목 클릭 시 프래그먼트 변경하는 함수 호출
+
         binding.navigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment(this))
-                R.id.libraryFragment -> setFragment(TAG_LIBRARY, LibraryVpFragment(this))
-                R.id.communityFragment -> setFragment(TAG_COMMUNITY, CommunityFragment())
-                R.id.mypageFragment -> setFragment(TAG_MYPAGE, MypageFragment())
+            if(binding.navigationView.selectedItemId != item.itemId){
+                when (item.itemId) {
+                    R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment(this))
+                    R.id.libraryFragment -> setFragment(TAG_LIBRARY, LibraryVpFragment(this))
+                    R.id.communityFragment -> setFragment(TAG_COMMUNITY, CommunityFragment())
+                    R.id.mypageFragment -> setFragment(TAG_MYPAGE, MypageFragment())
+                }
             }
             true
         }

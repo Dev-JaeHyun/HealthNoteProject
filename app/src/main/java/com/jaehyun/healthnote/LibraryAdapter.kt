@@ -113,8 +113,6 @@ class LibraryAdapter(var lists: List<Exercise>) : RecyclerView.Adapter<LibraryAd
         holder.exer_card.setBackgroundColor(ContextCompat.getColor(holder.binding.root.context, R.color.white))
         if (holder.exer_check) {
             holder.exer_card.setBackgroundColor(ContextCompat.getColor(holder.binding.root.context, R.color.warm_blue))
-
-
         }
     }
 
